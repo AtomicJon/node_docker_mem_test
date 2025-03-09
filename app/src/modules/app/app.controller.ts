@@ -1,7 +1,8 @@
 import { Controller, Get } from '@nestjs/common';
-import { AppService } from './app.service';
+import { pgNodePool } from 'src/lib/pgNode';
 import prismaClient from 'src/lib/prisma';
 import { getMemUsage } from 'src/util/mem';
+import { AppService } from './app.service';
 
 @Controller()
 export class AppController {
@@ -41,6 +42,20 @@ export class AppController {
   async getAll() {
     const result = await prismaClient.record.findMany();
     console.log(result.length);
+    return getMemUsage();
+  }
+
+  @Get('getPg')
+  async getGetPg() {
+    const result = await pgNodePool.query('SELECT * FROM "Record" LIMIT 1');
+    console.log(result.rows[0].id);
+    return getMemUsage();
+  }
+
+  @Get('getAllPg')
+  async getAllPg() {
+    const result = await pgNodePool.query('SELECT * FROM "Record"');
+    console.log(result.rows.length);
     return getMemUsage();
   }
 }

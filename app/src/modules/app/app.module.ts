@@ -10,6 +10,7 @@ import { getMemUsage } from 'src/util/mem';
 })
 export class AppModule {
   async onApplicationBootstrap() {
+    console.log(`${process.env.IMAGE} started`);
     getMemUsage();
   }
 }

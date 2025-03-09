@@ -7,6 +7,7 @@ services:
       - 3100:3000
     environment:
       IMAGE: alpine
+    env_file: ./app/.env
     command: yarn start:dev --preserveWatchOutput
 
   debian:
@@ -17,6 +18,7 @@ services:
       - 3200:3000
     environment:
       IMAGE: debian
+    env_file: ./app/.env
     command: yarn start:dev --preserveWatchOutput
 
   db:
