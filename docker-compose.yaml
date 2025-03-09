@@ -1,0 +1,31 @@
+services:
+  alpine:
+    build: ./docker-alpine
+    volumes:
+      - ./app:/app
+    ports:
+      - 3100:3000
+    environment:
+      IMAGE: alpine
+    command: yarn start:dev --preserveWatchOutput
+
+  debian:
+    build: ./docker-debian
+    volumes:
+      - ./app:/app
+    ports:
+      - 3200:3000
+    environment:
+      IMAGE: debian
+    command: yarn start:dev --preserveWatchOutput
+
+  db:
+    image: pgvector/pgvector:pg17
+    env_file:
+      - ./db/postgres.env
+    ports:
+      - 54321:5432
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
+      - ./db/init:/docker-entrypoint-initdb.d
+
